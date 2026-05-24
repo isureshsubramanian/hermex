@@ -1,0 +1,148 @@
+@page "/hermex/settings"
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="m4d-page">
+    <div class="m4d-page__head">
+        <div>
+            <h1 class="m4d-page__title">Settings &amp; status</h1>
+            <p class="m4d-page__subtitle">Live status of the in-process servers and their runtime configuration.</p>
+        </div>
+    </div>
+
+    <div class="m4d-grid">
+        <section class="m4d-card">
+            <header class="m4d-card__head">
+                <h2 class="m4d-card__title">Servers</h2>
+                <span class="m4d-status" id="m4d-settings-status">
+                    <span class="m4d-status__dot"></span>
+                    <span class="m4d-status__label">Loading…</span>
+                </span>
+            </header>
+            <dl class="m4d-defs">
+                <div><dt>SMTP endpoint</dt><dd id="m4d-set-endpoint">—</dd></div>
+                <div><dt>IMAP endpoint</dt><dd id="m4d-set-imap">—</dd></div>
+                <div><dt>Greeting host</dt><dd id="m4d-set-host">—</dd></div>
+                <div><dt>Uptime</dt><dd id="m4d-set-uptime">—</dd></div>
+                <div><dt>Active connections</dt><dd id="m4d-set-active">—</dd></div>
+                <div><dt>Messages received</dt><dd id="m4d-set-received">—</dd></div>
+                <div><dt>Messages rejected</dt><dd id="m4d-set-rejected">—</dd></div>
+                <div><dt>Connections accepted</dt><dd id="m4d-set-accepted">—</dd></div>
+            </dl>
+            <p class="m4d-note" id="m4d-set-error" hidden></p>
+        </section>
+
+        <section class="m4d-card">
+            <header class="m4d-card__head">
+                <h2 class="m4d-card__title">Mail store</h2>
+            </header>
+            <dl class="m4d-defs">
+                <div><dt>Stored messages</dt><dd id="m4d-set-total">—</dd></div>
+                <div><dt>Unread</dt><dd id="m4d-set-unread">—</dd></div>
+                <div><dt>Store size</dt><dd id="m4d-set-storesize">—</dd></div>
+                <div><dt>Last received</dt><dd id="m4d-set-last">—</dd></div>
+                <div class="m4d-defs__wide"><dt>Database file</dt><dd id="m4d-set-db" class="m4d-mono">—</dd></div>
+            </dl>
+        </section>
+
+        <section class="m4d-card">
+            <header class="m4d-card__head">
+                <h2 class="m4d-card__title">Appearance</h2>
+            </header>
+            <p class="m4d-card__lead">How the dashboard looks in this browser. Stored locally on this device.</p>
+            <div class="m4d-theme-picker" id="m4d-theme-picker">
+                <button type="button" class="m4d-theme-opt" data-theme-choice="light">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" /></svg>
+                    Light
+                </button>
+                <button type="button" class="m4d-theme-opt" data-theme-choice="dark">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+                    Dark
+                </button>
+                <button type="button" class="m4d-theme-opt" data-theme-choice="system">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
+                    System
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <section class="m4d-card" style="margin-top:18px">
+        <header class="m4d-card__head">
+            <h2 class="m4d-card__title">Server configuration</h2>
+        </header>
+        <p class="m4d-card__lead">
+            Saved to the database and applied immediately. Changing a port re-binds that
+            listener live — no host restart required.
+        </p>
+
+        <div class="m4d-form__grid">
+            <div class="m4d-field">
+                <label for="set-smtpPort">SMTP port</label>
+                <input class="m4d-input" type="number" id="set-smtpPort" min="1" max="65535" />
+            </div>
+            <div class="m4d-field">
+                <label for="set-imapPort">IMAP port</label>
+                <input class="m4d-input" type="number" id="set-imapPort" min="1" max="65535" />
+            </div>
+            <div class="m4d-field">
+                <label for="set-serverHostName">SMTP greeting host</label>
+                <input class="m4d-input" type="text" id="set-serverHostName" />
+            </div>
+            <div class="m4d-field">
+                <label for="set-maxMessageSizeMb">Max message size (MB)</label>
+                <input class="m4d-input" type="number" id="set-maxMessageSizeMb" min="1" max="1024" />
+            </div>
+            <div class="m4d-field">
+                <label for="set-retentionMaxMessages">Retention — max messages</label>
+                <input class="m4d-input" type="number" id="set-retentionMaxMessages" min="0" />
+                <span class="m4d-field__hint">0 disables count-based retention.</span>
+            </div>
+            <div class="m4d-field">
+                <label for="set-retentionMaxAgeHours">Retention — max age (hours)</label>
+                <input class="m4d-input" type="number" id="set-retentionMaxAgeHours" min="0" step="0.5" />
+                <span class="m4d-field__hint">0 disables age-based retention.</span>
+            </div>
+            <div class="m4d-field">
+                <label for="set-dashboardTitle">Dashboard title</label>
+                <input class="m4d-input" type="text" id="set-dashboardTitle" />
+            </div>
+            <div class="m4d-field">
+                <label for="set-defaultTheme">Default theme</label>
+                <select class="m4d-input" id="set-defaultTheme">
+                    <option value="System">System</option>
+                    <option value="Light">Light</option>
+                    <option value="Dark">Dark</option>
+                </select>
+            </div>
+            <div class="m4d-field">
+                <label for="set-relayHost">Relay host</label>
+                <input class="m4d-input" type="text" id="set-relayHost" />
+            </div>
+            <div class="m4d-field">
+                <label for="set-relayPort">Relay port</label>
+                <input class="m4d-input" type="number" id="set-relayPort" min="1" max="65535" />
+            </div>
+
+            <div class="m4d-field m4d-field--wide">
+                <label>Options</label>
+                <label class="m4d-check"><input type="checkbox" id="set-enableImap" /> Enable the IMAP server</label>
+                <label class="m4d-check"><input type="checkbox" id="set-requireAuthentication" /> Require SMTP authentication (any credentials accepted)</label>
+                <label class="m4d-check"><input type="checkbox" id="set-captureSessionTranscript" /> Capture the SMTP session transcript per message</label>
+                <label class="m4d-check"><input type="checkbox" id="set-relayEnabled" /> Enable upstream relay</label>
+                <label class="m4d-check"><input type="checkbox" id="set-relayAutomatic" /> Relay every captured message automatically</label>
+            </div>
+        </div>
+
+        <div class="m4d-form__actions">
+            <button type="button" class="m4d-btn m4d-btn--primary" id="m4d-settings-save">Save settings</button>
+            <button type="button" class="m4d-btn" id="m4d-settings-reload">Reset</button>
+            <span class="m4d-form__status" id="m4d-settings-result"></span>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/hermex/assets/js/settings.js"></script>
+}

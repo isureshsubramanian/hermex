@@ -1,0 +1,63 @@
+@page "/hermex"
+@{
+    ViewData["Title"] = "Inbox";
+}
+
+<div class="m4d-inbox" id="m4d-inbox">
+    <aside class="m4d-rail">
+        <div class="m4d-rail__head">
+            <span>Mailboxes</span>
+        </div>
+        <ul class="m4d-rail__list" id="m4d-mailbox-list"></ul>
+    </aside>
+
+    <aside class="m4d-pane m4d-pane--list">
+        <div class="m4d-pane__head">
+            <div class="m4d-search">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+                <input type="search" id="m4d-search" placeholder="Search subject, sender, recipient…" autocomplete="off" />
+            </div>
+            <div class="m4d-pane__tools">
+                <label class="m4d-toggle">
+                    <input type="checkbox" id="m4d-unread-only" />
+                    <span>Unread only</span>
+                </label>
+                <div class="m4d-pane__tools-spacer"></div>
+                <button type="button" class="m4d-icon-btn" id="m4d-refresh" title="Refresh">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-15 6.7L3 16" /><path d="M3 21v-5h5" /></svg>
+                </button>
+                <button type="button" class="m4d-icon-btn m4d-icon-btn--danger" id="m4d-clear" title="Clear inbox">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                </button>
+            </div>
+            <div class="m4d-stripe" id="m4d-list-stats">
+                <span class="m4d-stripe__item"><strong id="m4d-stat-total">0</strong> messages</span>
+                <span class="m4d-stripe__item"><strong id="m4d-stat-unread">0</strong> unread</span>
+                <span class="m4d-stripe__item m4d-stripe__item--muted" id="m4d-stat-size">0 B</span>
+            </div>
+        </div>
+
+        <ul class="m4d-msg-list" id="m4d-msg-list" role="listbox" aria-label="Messages"></ul>
+
+        <div class="m4d-empty" id="m4d-list-empty" hidden>
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3" /><path d="m3 7 9 6 9-6" /></svg>
+            <p class="m4d-empty__title">No messages yet</p>
+            <p class="m4d-empty__hint">Send mail to the SMTP server and it will appear here instantly.</p>
+        </div>
+
+        <div class="m4d-pager" id="m4d-pager"></div>
+    </aside>
+
+    <section class="m4d-pane m4d-pane--detail" id="m4d-detail-pane">
+        <div class="m4d-empty m4d-empty--detail" id="m4d-detail-empty">
+            <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><path d="m22 6-10 7L2 6" /></svg>
+            <p class="m4d-empty__title">Select a message</p>
+            <p class="m4d-empty__hint">Choose a message from the list to inspect its content, headers and attachments.</p>
+        </div>
+        <article class="m4d-detail" id="m4d-detail" hidden></article>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="/hermex/assets/js/inbox.js"></script>
+}

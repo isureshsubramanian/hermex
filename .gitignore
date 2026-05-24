@@ -440,3 +440,9 @@ BenchmarkDotNet.Artifacts/
 
 # Presentations
 presentations/
+
+# Hermex local runtime data (SQLite database created by the in-process server)
+*.db
+*.db-shm
+*.db-wal
+*.eml

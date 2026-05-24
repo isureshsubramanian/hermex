@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+
+    <!-- NuGet package metadata -->
+    <IsPackable>true</IsPackable>
+    <PackageId>Hermex</PackageId>
+    <AssemblyName>Hermex</AssemblyName>
+    <RootNamespace>Hermex</RootNamespace>
+    <Title>Hermex — in-process SMTP/IMAP server &amp; dashboard</Title>
+    <Version>1.0.0</Version>
+    <Description>An in-process SMTP and IMAP server with an executive-grade web dashboard for .NET applications. Capture, inspect and debug the HTML/text mail your app sends — no Docker, no external service. Register with services.AddMail4Dev() and app.UseMail4Dev().</Description>
+    <PackageTags>smtp;imap;email;mail;mailserver;dev;testing;dashboard;razor-pages;signalr</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/sureshsubramanian/Hermex</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/sureshsubramanian/Hermex</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <!-- Reproducible builds, Source Link and a symbol package for debugging -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <!-- Dashboard CSS/JS are embedded into the assembly and served by Hermex's own
+       endpoint, so the package works in any host with no static-file configuration. -->
+  <ItemGroup>
+    <None Remove="Assets\**\*" />
+    <EmbeddedResource Include="Assets\css\hermex.css" LogicalName="Hermex.Assets.css.hermex.css" />
+    <EmbeddedResource Include="Assets\js\hermex.js" LogicalName="Hermex.Assets.js.hermex.js" />
+    <EmbeddedResource Include="Assets\js\inbox.js" LogicalName="Hermex.Assets.js.inbox.js" />
+    <EmbeddedResource Include="Assets\js\logs.js" LogicalName="Hermex.Assets.js.logs.js" />
+    <EmbeddedResource Include="Assets\js\settings.js" LogicalName="Hermex.Assets.js.settings.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" Condition="Exists('../../README.md')" />
+  </ItemGroup>
+
+  <!-- Charset providers (windows-125x, iso-8859-x, etc.) for robust MIME decoding -->
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- SQLite: pin a version per target framework so each runtime gets a matching build -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.11" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>
